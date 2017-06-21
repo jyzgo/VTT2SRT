@@ -26,9 +26,14 @@ def main():
             strvtt = strvtt + "," + listvtt[i]
         
         #print strvtt
-        srtName = vttname.split('.')
+        # srtName = vttname.split('.')
 
-        subprocess.call(['ffmpeg', '-i', vttname, srtName[0] + '.srt'])
+        if vttname.endswith('.vtt'):
+            srtName = vttname[:-4]
+        else:
+            srtName = vttname.split('.')[0]
+
+        subprocess.call(['ffmpeg', '-i', vttname, srtName + '.srt'])
 
     pass
 
