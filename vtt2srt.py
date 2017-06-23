@@ -1,10 +1,24 @@
 #coding = utf-8
 import os
 import shlex, subprocess
+import sys, getopt
 
 
-def main():
-    path = os.getcwd()
+def main(argv):
+
+    
+    # print('path is ' + argv[0]);
+    path = "";
+    if(len(argv) == 0):
+      path = os.getcwd()
+    else:
+      path = os.getcwd() + "\\" + argv[0]
+
+    
+    if(not os.path.isdir(path)):
+        print(path  + " is not a dir")
+        return
+
 
     vttName = []                                     
 
@@ -14,7 +28,7 @@ def main():
             vttName.append(i)
 
     for vttname in vttName:
-        vtt = open(path + "\\" + vttname)
+        vtt = open(path  + vttname)
         filevtt = vtt.read()
         vtt.close()
         #print filevtt
@@ -33,9 +47,10 @@ def main():
         else:
             srtName = vttname.split('.')[0]
 
-        subprocess.call(['ffmpeg', '-i', vttname, srtName + '.srt'])
+        subprocess.call(['ffmpeg', '-i', path + vttname, path + srtName + '.srt'])
 
     pass
 
-main()
+if __name__ == "__main__":
+ main(sys.argv[1:])
 
